@@ -5,22 +5,24 @@ backend run:nodemon index.js
 frontend run:npm start 
 
 
+.env
+----
+required for protected routes
+  - `MONGO_CONN` = Your MongoDB connection string
+  - `PORT` = 3001
 
 Backend
-------
 
 auth
 ---------
-- Register(http://localhost:3001/)
-- login(http://localhost:3001/)
-- Authentication: JWT token required for protected routes
-  - `MONGO_CONN` = Your MongoDB connection string
-  - `PORT` = 3001
-  - 
+Register(http://localhost:3001/auth/register)
+  
+login(http://localhost:3001/auth/register
+ Authentication: JWT token 
 
 Event
 ----
--addEvent(http://localhost:3001)
+-addEvent(http://localhost:3001/event/addevent)
 -[getEvent(search,filter,page,limit(pagination)]
 -updateEvent
 -deleteEvent
@@ -30,8 +32,8 @@ Event
 Frontend
 ---
 - http://localhost:3000
- Register
-- login
+-  Register(Api integration)
+- login(Api integration)
 
 
 Event
