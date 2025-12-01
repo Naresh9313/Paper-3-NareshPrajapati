@@ -1,45 +1,28 @@
 Paper-3 Naresh Prajapati
 
-Backend Api run (http://localhost:3001)
----------
-validation(joi)
-languges(gu,en)
-prettier(format document)
-statuscode
-
-
-Regiter(with mail nodemailer)
-Login
-nodemailer
-
-Event Api
----
-addEvent
-getEvent
-search,
-filter,
-pagination,
-update,
-delete
-
-
-Frontend code run(http://localhost:3000)
------
-auth(api intergration)
+Backend
 ------
-register,
-login
+
+auth
+---
+- http://localhost:3000
+- Register
+- login
+ 
+- Authentication: JWT token required for protected routes
+  - `MONGO_CONN` = Your MongoDB connection string
+  - `PORT` = 3001
+  - 
+
+Event
+----
+-addEvent
+-getEvent(search,filter,page,limit(pagination)
+-updateEvent
+-deleteEvent
 
 
-event
---
-addEvent
-getEvent
-search,
-filter,
-pagination,
-update,
-delete
+
 
 
 
