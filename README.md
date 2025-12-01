@@ -5,7 +5,7 @@ Backend
 
 auth
 ---
-- http://localhost:3000
+- http://localhost:3001
 - Register
 - login
  
@@ -13,6 +13,22 @@ auth
   - `MONGO_CONN` = Your MongoDB connection string
   - `PORT` = 3001
   - 
+
+Event
+----
+-addEvent
+-getEvent(search,filter,page,limit(pagination)
+-updateEvent
+-deleteEvent
+
+
+
+Frontend
+---
+- http://localhost:3000
+ Register
+- login
+
 
 Event
 ----
