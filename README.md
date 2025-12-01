@@ -23,9 +23,9 @@ login(http://localhost:3001/auth/register
 Event
 ----
 -addEvent(http://localhost:3001/event/addevent)
--[getEvent(search,filter,page,limit(pagination)]
--updateEvent
--deleteEvent
+-[getEvent(search,filter,page,limit(pagination)(http://localhost:3001/event/getEvent)
+-updateEvent(http://localhost:3001/event/updateevent)
+-deleteEvent(http://localhost:3001/event/addevent)
 
 
 
@@ -39,7 +39,7 @@ Frontend
 Event
 ----
 -addEvent
--getEvent(search,filter,page,limit(pagination)
+getEvent(search,filter,page,limit(pagination)
 -updateEvent
 -deleteEvent
 
