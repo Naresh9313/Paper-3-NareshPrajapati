@@ -6,11 +6,8 @@ validation(joi)
 languges(gu,en)
 prettier(format document)
 statuscode
-------
 
 
-Frontend code run(http://localhost:3000)
---------
 Regiter(with mail nodemailer)
 Login
 nodemailer
@@ -26,7 +23,7 @@ update,
 delete
 
 
-frontend side 
+Frontend code run(http://localhost:3000)
 -----
 auth(api intergration)
 ------
