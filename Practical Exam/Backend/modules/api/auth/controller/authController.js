@@ -49,6 +49,42 @@ export const Register = async (req, res) => {
         });
     }
 };
+
+
+
+// export const Login = async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
+
+//     const user = await userModel.findOne({ email });
+//     if (!user) {
+//       return res.status(statusCode.NOT_FOUND).json({
+//         message: 'user not found',
+//       });
+//     }
+
+//     const passwordMatch = await bcrypt.compare(password, user.password);
+//     if (!passwordMatch) {
+//       return res.status(statusCode.UNATHOZIATION).json({
+//         message: 'password does not match',
+//       });
+//     }
+
+//     const token = jwt.sign({ id: user._id,
+//       name: user.name,
+//       email: user.email
+//      }, process.env.JWT_SECRET, {
+//       expiresIn: '7d',
+//     });
+
+//     return res.status(statusCode.SUCCESS).json({
+//       message: 'Login success',
+//       token,
+//     });
+//   } catch (error) {
+//     console.log('error', error.message);
+//   }
+// };
 export const Login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -56,24 +92,37 @@ export const Login = async (req, res) => {
     const user = await userModel.findOne({ email });
     if (!user) {
       return res.status(statusCode.NOT_FOUND).json({
-        message: 'user not found',
+        message: 'User not found',
       });
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
       return res.status(statusCode.UNATHOZIATION).json({
-        message: 'password does not match',
+        message: 'Password does not match',
       });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: '7d',
-    });
+    const token = jwt.sign(
+      {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: '7d',
+      }
+    );
 
     return res.status(statusCode.SUCCESS).json({
       message: 'Login success',
       token,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+      },
     });
   } catch (error) {
     console.log('error', error.message);

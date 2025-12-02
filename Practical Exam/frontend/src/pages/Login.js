@@ -15,27 +15,28 @@ function Login() {
 
  
   const handleSubmit = async (values) => {
-    try {
-      const response = await fetch("http://localhost:3001/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
+  try {
+    const response = await fetch("http://localhost:3001/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
+    });
 
-      const data = await response.json();
+    const data = await response.json();
 
-      if (!response.ok) {
-        alert(data.message || "Login failed");
-        return;
-      }
-
-      localStorage.setItem("token", data.token);
-      alert("Login successful");
-      navigate("/");
-    } catch (error) {
-      console.log("Login error:", error.message);
+    if (!response.ok) {
+      alert(data.message || "Login failed");
+      return;
     }
-  };
+
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("userId", data.user._id);  
+    alert("Login successful");
+    navigate("/");
+  } catch (error) {
+    console.log("Login error:", error.message);
+  }
+};
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
