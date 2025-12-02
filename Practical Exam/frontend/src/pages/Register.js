@@ -31,7 +31,7 @@ function Register() {
     <>
     <div style={{border:"10px solid black",padding:10,margin:10,background:"pink"}}>
     <center>
-      <h1>Register</h1>
+      <h1>Register ..</h1>
       Name:
       <input type="text" placeholder="Enter Your Name" onChange={(e) => setName(e.target.value)}  />
       <br /><br/>
