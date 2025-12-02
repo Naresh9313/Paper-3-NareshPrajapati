@@ -85,6 +85,7 @@ export const Register = async (req, res) => {
 //     console.log('error', error.message);
 //   }
 // };
+
 export const Login = async (req, res) => {
   try {
     const { email, password } = req.body;

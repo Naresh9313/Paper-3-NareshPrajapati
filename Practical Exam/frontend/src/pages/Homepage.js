@@ -4,12 +4,13 @@ import Navbar from "../components/Navbar";
 
 function Homepage() {
   const [events, setEvents] = useState([]);
+  const [search, setSearch] = useState("");
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
 
   const handleGet = async () => {
     try {
-      const res = await fetch("http://localhost:3001/event/getEvent", {
+      const res = await fetch(`http://localhost:3001/event/getEvent?search=${search}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -26,7 +27,7 @@ function Homepage() {
 
   useEffect(() => {
     handleGet();
-  }, []);
+  }, [search]);
 
   const handleBooking = async (eventId) => {
     if (!userId) {
@@ -66,11 +67,23 @@ function Homepage() {
       <div className="container py-4">
         <h1 className="text-center mb-4 fw-bold">Available Events</h1>
 
+        <div className="row mb-4">
+          <div className="col-md-6 mx-auto">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search events by name..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+        </div>
+
         <div className="row">
           {events.map((item) => (
             <div className="col-md-6 col-lg-4 mb-4" key={item._id}>
               <div className="card shadow-sm border-0 h-100">
-                
+
                 <div className="card-header bg-primary text-white text-center">
                   <h5 className="mb-0">{item.ename}</h5>
                 </div>
