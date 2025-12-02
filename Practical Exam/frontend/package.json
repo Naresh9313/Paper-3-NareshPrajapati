@@ -14,7 +14,14 @@
     "react-router-dom": "^7.9.6",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4",
+<<<<<<< HEAD
     "yup": "^1.7.1"
+=======
+     "formik": "^2.4.9",
+      "yup": "^1.7.1"
+
+
+>>>>>>> b91ee0cd576013b97bc553080e5aef5a63c1a563
   },
   "scripts": {
     "start": "react-scripts start",
