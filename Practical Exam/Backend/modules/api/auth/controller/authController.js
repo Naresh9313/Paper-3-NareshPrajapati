@@ -1,10 +1,10 @@
-import statusCode from "../../../../config/statusCode.js";
-import gu from "../../../../language/gu/gu.js";
-import userModel from "../../../../models/userModel.js";
-import bcrypt from "bcryptjs"
-import jwt from "jsonwebtoken"
-import { RegisterValidation } from "../../validationRules.js";
-import { sendEmail } from "../../../../utlis/mailer.js";
+import statusCode from '../../../../config/statusCode.js';
+import gu from '../../../../language/gu/gu.js';
+import userModel from '../../../../models/userModel.js';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { RegisterValidation } from './../../validationRules.js';
+
 
 export const Register = async (req, res) => {
     try {
@@ -16,7 +16,7 @@ export const Register = async (req, res) => {
             });
         }
 
-        const { name, email, password,tickets,status } = req.body;
+        const { name, email, password} = req.body;
 
         const emailExists = await userModel.findOne({ email });
         if (emailExists) {
@@ -30,19 +30,12 @@ export const Register = async (req, res) => {
         const newUser = new userModel({
             name,
             email,
-            password: hashedPassword,
-            tickets,
-            status
+            password: hashedPassword
         });
 
         await newUser.save();
 
-        sendEmail(
-            email,
-            "Welcome to Event App ",
-            `<h3>Hello ${name},</h3>
-             <p>Thank you!!.</p>`
-        );
+    
 
         return res.status(statusCode.SUCCESS).json({
             message: "Register Successfully!",
@@ -56,39 +49,33 @@ export const Register = async (req, res) => {
         });
     }
 };
+export const Login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-
-export const Login = async (req,res) => {
-    try{
-
-        const {email,password} = req.body;
-
-        const user = await userModel.findOne({email})
-        if(!user){
-            return res.status(statusCode.NOT_FOUND).json({
-                message:"user not found"
-            })
-        }
-
-        const passwordMatch = await bcrypt.compare(password,user.password)
-        if(!passwordMatch){
-            return res.status(statusCode.UNATHOZIATION).json({
-                message:"password does not match"
-            })
-        }
-
-        const token = jwt.sign(
-            {id:user._id},
-            process.env.JWT_SECRET,
-            {expiresIn:"7d"}
-        )
-
-        return res.status(statusCode.SUCCESS).json({
-            message:"Login success",
-            token
-        })
-
-    }catch(error){
-        console.log("error",error.message)
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return res.status(statusCode.NOT_FOUND).json({
+        message: 'user not found',
+      });
     }
-}
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.status(statusCode.UNATHOZIATION).json({
+        message: 'password does not match',
+      });
+    }
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: '7d',
+    });
+
+    return res.status(statusCode.SUCCESS).json({
+      message: 'Login success',
+      token,
+    });
+  } catch (error) {
+    console.log('error', error.message);
+  }
+};

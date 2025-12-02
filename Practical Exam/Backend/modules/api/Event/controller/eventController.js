@@ -13,12 +13,19 @@ export const addEvent = async (req, res) => {
         error: error.message,
       });
     }
-    const { ename, edate, category } = req.body;
+    const { ename, edate, evenues, eprice, elocation, category, capacity } =
+      req.body;
+
     const newEvent = new eventModel({
       ename,
       edate,
+      evenues,
+      eprice,
+      elocation,
       category,
+      capacity,
       user: req.user.id,
+      eimage: req.file?.filename,
     });
 
     await newEvent.save();
@@ -36,13 +43,13 @@ export const addEvent = async (req, res) => {
 
 export const getEvent = async (req, res) => {
   try {
-    const { search, category, page = 1, limit = 5 } = req.query;
+    const { search, category, page = 1, limit = 5, sort } = req.query;
+
     let query = {};
 
     if (search) {
       query = {
         $or: [
-          { ename: { $regex: search, $options: 'i' } },
           { ename: { $regex: search, $options: 'i' } },
           { category: { $regex: search, $options: 'i' } },
         ],
@@ -53,9 +60,28 @@ export const getEvent = async (req, res) => {
       query.category = category;
     }
 
+    let sortOption = {};
+
+    switch (sort) {
+      case 'date_asc':
+        sortOption.edate = 1;
+        break;
+
+      case 'date_desc':
+        sortOption.edate = -1;
+        break;
+
+      default:
+        sortOption.date = 1;
+    }
+
     const skip = (page - 1) * limit;
 
-    const event = await eventModel.find(query).skip(skip).limit(Number(limit));
+    const event = await eventModel
+      .find(query)
+      .sort(sortOption)
+      .skip(skip)
+      .limit(Number(limit));
 
     return res.status(statusCode.SUCCESS).json({
       message: 'Events fetched successfully',
@@ -64,11 +90,10 @@ export const getEvent = async (req, res) => {
   } catch (error) {
     console.log('error', error.message);
     return res.status(statusCode.INTERNAL_SERVER_SERVER).json({
-      message: 'error geting events',
+      message: 'error getting events',
     });
   }
 };
-
 
 export const updateEvent = async (req, res) => {
   try {
@@ -91,9 +116,7 @@ export const updateEvent = async (req, res) => {
       message: 'error updating events',
     });
   }
-}
-
-
+};
 
 export const deleteEvent = async (req, res) => {
   try {
