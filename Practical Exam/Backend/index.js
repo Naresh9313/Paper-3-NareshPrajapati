@@ -17,8 +17,8 @@ app.use(express.json());
 app.use(
   cors({
     origin: 'http://localhost:3000',
-    credentials: true, 
-    methods: ['GET', 'POST', 'PUT', 'DELETE']
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
   }),
 );
 
@@ -26,11 +26,9 @@ app.use('/auth', userRoutes);
 app.use('/event', eventRoutes);
 app.use('/booking', bookingRoutes);
 
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
 
 app.listen(process.env.PORT, () => {
   console.log(`Server Is Running On ${process.env.PORT}`.bgCyan.white);

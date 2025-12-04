@@ -5,52 +5,46 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { RegisterValidation } from './../../validationRules.js';
 
-
 export const Register = async (req, res) => {
-    try {
-        const { error } = RegisterValidation.validate(req.body);
-        if (error) {
-            return res.status(statusCode.VALIDATION_ERROR).json({
-                message: "Validation error",
-                error: error.message
-            });
-        }
-
-        const { name, email, password} = req.body;
-
-        const emailExists = await userModel.findOne({ email });
-        if (emailExists) {
-            return res.status(statusCode.DUPLICATE_VALUE).json({
-                message: gu.EMAIL_EXIST
-            });
-        }
-
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        const newUser = new userModel({
-            name,
-            email,
-            password: hashedPassword
-        });
-
-        await newUser.save();
-
-    
-
-        return res.status(statusCode.SUCCESS).json({
-            message: "Register Successfully!",
-            newUser
-        });
-
-    } catch (error) {
-        console.log("error", error.message);
-        return res.status(statusCode.INTERNAL_SERVER_SERVER).json({
-            message: "register error"
-        });
+  try {
+    const { error } = RegisterValidation.validate(req.body);
+    if (error) {
+      return res.status(statusCode.VALIDATION_ERROR).json({
+        message: 'Validation error',
+        error: error.message,
+      });
     }
+
+    const { name, email, password } = req.body;
+
+    const emailExists = await userModel.findOne({ email });
+    if (emailExists) {
+      return res.status(statusCode.DUPLICATE_VALUE).json({
+        message: 'Email Already',
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = new userModel({
+      name,
+      email,
+      password: hashedPassword,
+    });
+
+    await newUser.save();
+
+    return res.status(statusCode.SUCCESS).json({
+      message: 'Register Successfully!',
+      newUser,
+    });
+  } catch (error) {
+    console.log('error', error.message);
+    return res.status(statusCode.INTERNAL_SERVER_SERVER).json({
+      message: 'register error',
+    });
+  }
 };
-
-
 
 // export const Login = async (req, res) => {
 //   try {
@@ -113,7 +107,7 @@ export const Login = async (req, res) => {
       process.env.JWT_SECRET,
       {
         expiresIn: '7d',
-      }
+      },
     );
 
     return res.status(statusCode.SUCCESS).json({

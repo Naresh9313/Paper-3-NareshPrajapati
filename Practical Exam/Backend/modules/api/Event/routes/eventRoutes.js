@@ -15,7 +15,7 @@ eventRoutes.post(
   authMiddleware,
   addEvent,
 );
-eventRoutes.get('/getEvent',  authMiddleware,getEvent);
+eventRoutes.get('/getEvent', authMiddleware, getEvent);
 eventRoutes.put('/updateEvent', authMiddleware, updateEvent);
 eventRoutes.delete('/deleteEvent', authMiddleware, deleteEvent);
 

@@ -1,9 +1,9 @@
-import bookingModel from "../../../../models/bookingModel.js";
-import eventModel from "../../../../models/eventModel.js";
-import userModel from "../../../../models/userModel.js";
-import QRCode from "qrcode";
-import nodemailer from "nodemailer";
-import statusCode from "../../../../config/statusCode.js";
+import bookingModel from '../../../../models/bookingModel.js';
+import eventModel from '../../../../models/eventModel.js';
+import userModel from '../../../../models/userModel.js';
+import QRCode from 'qrcode';
+import nodemailer from 'nodemailer';
+import statusCode from '../../../../config/statusCode.js';
 
 export const bookingEvent = async (req, res) => {
   try {
@@ -11,32 +11,39 @@ export const bookingEvent = async (req, res) => {
     const tickets = req.body?.tickets || 1;
 
     if (!userId || !eventId) {
-      return res.status(400).json({ message: "userId & eventId required" });
+      return res.status(400).json({ message: 'userId & eventId required' });
     }
 
     const user = await userModel.findById(userId);
-    if (!user) return res.status(statusCode.NOT_FOUND).json({ 
-      message: "User not found" });
 
+    if (!user) {
+      return res.status(statusCode.NOT_FOUND).json({
+        message: 'User not found',
+      });
+    }
     const event = await eventModel.findById(eventId);
-    if (!event) return res.status(statusCode.NOT_FOUND).json({
-       message: "Event not found" });
+    if (!event) {
+      return res.status(statusCode.NOT_FOUND).json({
+        message: 'Event not found',
+      });
+    }
 
     const existing = await bookingModel.findOne({ userId, eventId });
     if (existing) {
       return res.status(statusCode.DUPLICATE_VALUE).json({
-         message: "You already booked this event!" });
+        message: 'You already booked this event!',
+      });
     }
 
     const remainingSeats = event.capacity - event.seatsSold;
 
-    let finalStatus = "confirmed";
+    let finalStatus = 'confirmed';
 
     if (remainingSeats < tickets) {
-      finalStatus = "waitlisted";
+      finalStatus = 'waitlisted';
     } else {
       await eventModel.findByIdAndUpdate(eventId, {
-        $inc: { seatsSold: tickets }
+        $inc: { seatsSold: tickets },
       });
     }
 
@@ -48,17 +55,16 @@ export const bookingEvent = async (req, res) => {
       eventId,
       tickets,
       status: finalStatus,
-      qrCode: qrCodeImage
+      qrCode: qrCodeImage,
     });
 
- const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
-
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
 
     const emailHTML = `
       <h2>Hello ${user.name},</h2>
@@ -81,30 +87,100 @@ export const bookingEvent = async (req, res) => {
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: user.email,
-      subject: "Event Booking Confirmation",
+      subject: 'Event Booking Confirmation',
       html: emailHTML,
       attachments: [
         {
-          filename: "qrcode.png",
-          cid: "qrcodeimg",
-          path: qrCodeImage
-        }
-      ]
+          filename: 'qrcode.png',
+          cid: 'qrcodeimg',
+          path: qrCodeImage,
+        },
+      ],
     });
 
     return res.status(statusCode.SUCCESS).json({
-      message: "Booking Successful! Email Sent.",
+      message: 'Booking Successful! Email Sent.',
       booking,
-      status: finalStatus
+      status: finalStatus,
     });
-
   } catch (error) {
-    console.log("Booking error:", error);
+    console.log('Booking error:', error);
     return res.status(statusCode.INTERNAL_SERVER_SERVER).json({
-      message: "Server Error",
+      message: 'Server Error',
       error: error.message,
     });
   }
 };
 
+export const cancelBooking = async (req, res) => {
+  try {
+    const { bookingId } = req.query;
 
+    if (!bookingId) {
+      return res.status(400).json({ message: 'bookingId required' });
+    }
+
+    const booking = await bookingModel
+      .findById(bookingId)
+      .populate('eventId')
+      .populate('userId');
+
+    if (!booking) {
+      return res.status(404).json({ message: 'Booking not found' });
+    }
+
+    const event = booking.eventId;
+    const user = booking.userId;
+
+    const today = new Date();
+    if (new Date(event.edate) < today) {
+      return res
+        .status(400)
+        .json({ message: 'Event already passed. Cannot cancel.' });
+    }
+
+    if (booking.status === 'confirmed') {
+      await eventModel.findByIdAndUpdate(event._id, {
+        $inc: { seatsSold: -booking.tickets },
+      });
+    }
+
+    booking.status = 'cancelled';
+    await booking.save();
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    const cancelHTML = `
+      <h2>Hello ${user.name},</h2>
+      <p>Your booking has been <b>cancelled</b>.</p>
+
+      <h3>${event.ename}</h3>
+      <p><b>Date:</b> ${event.edate}</p>
+      <p><b>Venue:</b> ${event.evenues}</p>
+    `;
+
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: user.email,
+      subject: 'Event Booking Cancelled',
+      html: cancelHTML,
+    });
+
+    return res.status(200).json({
+      message: 'Booking cancelled successfully.',
+      booking,
+    });
+  } catch (error) {
+    console.log('Cancellation Error:', error);
+    return res.status(500).json({
+      message: 'Server Error',
+      error: error.message,
+    });
+  }
+};

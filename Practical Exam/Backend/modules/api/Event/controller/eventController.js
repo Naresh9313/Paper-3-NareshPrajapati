@@ -43,7 +43,7 @@ export const addEvent = async (req, res) => {
 
 export const getEvent = async (req, res) => {
   try {
-    const { search, category, page = 1, limit = 5, sort } = req.query;
+    const { search, category, page = 1, limit = 6, sort } = req.query;
 
     let query = {};
 
@@ -77,6 +77,8 @@ export const getEvent = async (req, res) => {
 
     const skip = (page - 1) * limit;
 
+    const total = await eventModel.countDocuments(query);
+
     const event = await eventModel
       .find(query)
       .sort(sortOption)
@@ -86,6 +88,9 @@ export const getEvent = async (req, res) => {
     return res.status(statusCode.SUCCESS).json({
       message: 'Events fetched successfully',
       event,
+      total,
+      page: Number(page),
+      pages: Math.ceil(total / limit),
     });
   } catch (error) {
     console.log('error', error.message);

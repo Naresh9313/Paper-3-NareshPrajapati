@@ -1,17 +1,16 @@
-import mongoose from "mongoose";
-
+import mongoose from 'mongoose';
 
 const bookingSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true
+      ref: 'User',
+      required: true,
     },
     eventId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Event",
-      required: true
+      ref: 'Event',
+      required: true,
     },
     tickets: {
       type: Number,
@@ -23,7 +22,7 @@ const bookingSchema = new mongoose.Schema(
       default: 'confirmed',
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export default mongoose.model("Booking", bookingSchema);
+export default mongoose.model('Booking', bookingSchema);

@@ -1,9 +1,12 @@
 import express from 'express';
-import { bookingEvent } from '../controller/bookingController.js';
+import {
+  bookingEvent,
+  cancelBooking,
+} from '../controller/bookingController.js';
 
 const bookingRoutes = express.Router();
 
-
-bookingRoutes.post("/eventBooking",bookingEvent)
+bookingRoutes.get('/eventBooking', bookingEvent);
+bookingRoutes.put('/cancel', cancelBooking);
 
 export default bookingRoutes;

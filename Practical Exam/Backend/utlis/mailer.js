@@ -19,7 +19,7 @@ export const sendEmail = async (to, subject, html, qrBase64) => {
         filename: 'qrcode.png',
         content: qrBase64.split('base64,')[1],
         encoding: 'base64',
-        cid: 'qrimage@eventapp'
+        cid: 'qrimage@eventapp',
       },
     ],
   });
