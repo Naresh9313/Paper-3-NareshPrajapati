@@ -1,51 +1,75 @@
+# 🎫 Event Booking System (MERN)
 
-git clone "";
+A full-stack MERN application for managing events, user registrations, bookings, QR code generation, and email confirmations.
 
-backend run:nodemon index.js
-frontend run:npm start 
+## 🚀 Project Setup Guide
 
+### 1️⃣ Clone the Repository
+```bash
+git clone "https://github.com/Naresh9313/Paper-3-NareshPrajapati.git"
+```
 
-.env
-----
-required for protected routes
-  - `MONGO_CONN` = Your MongoDB connection string
-  - `PORT` = 3001
+### 2️⃣ Install Dependencies
+#### Backend
+```bash
+cd Backend
+npm install
+```
+#### Frontend
+```bash
+cd ../frontend
+npm install
+```
 
-Backend
+### 3️⃣ Run the Project
+#### Backend
+```bash
+nodemon index.js
+```
+Backend: http://localhost:3001
 
-auth
----------
-Register(http://localhost:3001/auth/register)
-  
-login(http://localhost:3001/auth/register
- Authentication: JWT token 
+#### Frontend
+```bash
+npm start
+```
+Frontend: http://localhost:3000
 
-Event
-----
--addEvent(http://localhost:3001/event/addevent)
--[getEvent(search,filter,page,limit(pagination)(http://localhost:3001/event/getEvent)
--updateEvent(http://localhost:3001/event/updateevent)
--deleteEvent(http://localhost:3001/event/addevent)
+## 🔧 Environment Variables (.env)
+Inside Backend/.env:
+```
+MONGO_CONN=your_mongodb_connection_string
+PORT=3001
+JWT_TOKEN=your_jwt_secret_key
+EMAIL_USER=your_email
+EMAIL_PASSWORD=your_email_app_password
+```
 
+## 🔌 Backend API Details
 
+### Auth APIs
+Base: http://localhost:3001/auth
+- POST /register
+- POST /login
 
-Frontend
----
-- http://localhost:3000
--  Register(Api integration)
-- login(Api integration)
+### Event APIs
+Base: http://localhost:3001/event
+- POST /addEvent
+- GET /getEvent
+- PUT /updateEvent
+- DELETE /deleteEvent
 
+### Booking API
+Base: http://localhost:3001/booking
+- POST /eventBooking?userId=xxx&eventId=xxx
 
-Event
-----
--addEvent
-getEvent(search,filter,page,limit(pagination)
--updateEvent
--deleteEvent
+## 🎨 Frontend Features
+- Formik + Yup validation
+- Fetch API Integration
+- Search, Filter, sort, Pagination
+- Event Booking
 
-
-
-
-
+## 🛠 Technologies Used
+Backend: Node.js, Express, MongoDB, JWT, multer, nodemailer, qrcode, joi  
+Frontend: React, Formik, Yup, Bootstrap
 
 
