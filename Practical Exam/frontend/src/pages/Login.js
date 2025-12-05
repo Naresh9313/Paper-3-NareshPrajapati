@@ -28,7 +28,7 @@ function Login() {
         return;
       }
 
-      login(data.token, data.user._id); 
+      login(data.token, data.user._id);
 
       alert("Login Success");
       navigate("/");
@@ -42,21 +42,42 @@ function Login() {
       <div className="card p-4 shadow-lg" style={{ width: "28rem" }}>
         <h2 className="text-center mb-4">Login</h2>
 
-        <Formik initialValues={{ email: "", password: "" }} validationSchema={validationSchema} onSubmit={handleSubmit}>
+        <Formik
+          initialValues={{ email: "", password: "" }}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
           <Form>
             <div className="mb-3">
               <label>Email</label>
               <Field type="email" name="email" className="form-control" />
-              <ErrorMessage name="email" component="div" className="text-danger" />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className="text-danger"
+              />
             </div>
 
             <div className="mb-3">
               <label>Password</label>
               <Field type="password" name="password" className="form-control" />
-              <ErrorMessage name="password" component="div" className="text-danger" />
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="text-danger"
+              />
             </div>
 
-            <button type="submit" className="btn btn-primary w-100">Login</button>
+            <button type="submit" className="btn btn-primary w-100">
+              Login
+            </button>
+
+            <p className="text-center mt-3">
+            No account? can  {" "}
+              <a href="/register" className="text-primary fw-semibold">
+                register
+              </a>
+            </p>
           </Form>
         </Formik>
       </div>
