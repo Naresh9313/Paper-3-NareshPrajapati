@@ -102,23 +102,7 @@ export const bookingEvent = async (req, res) => {
       ],
     });
 
-    // const remainingSeatsAfterUpdate =
-    //   event.capacity - (event.seatsSold + (finalStatus === "confirmed" ? tickets : 0));
-
-    // if (remainingSeatsAfterUpdate < 10 && remainingSeatsAfterUpdate >= 0) {
-    //   if (process.env.ADMIN_EMAIL) {
-    //     await transporter.sendMail({
-    //       from: process.env.EMAIL_USER,
-    //       to: process.env.ADMIN_EMAIL,
-    //       subject: " Low Capacity Alert",
-    //       html: `
-    //         <p>Event <b>${event.ename}</b> is almost full.</p>
-    //         <p><b>Remaining Seats:</b> ${remainingSeatsAfterUpdate}</p>
-    //       `,
-    //     });
-    //   }
-    // }
-
+  
     return res.status(statusCode.SUCCESS).json({
       message: "Booking Successful! Email Sent.",
       booking,

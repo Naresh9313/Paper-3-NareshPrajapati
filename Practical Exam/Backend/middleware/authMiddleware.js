@@ -19,3 +19,22 @@ export const authMiddleware = async (req, res, next) => {
     console.log('error', error.message);
   }
 };
+
+export const verifyRole = (...allowedRoles) => {
+  return (req, res, next) => {
+
+    if (!req.user) {
+      return res.status(statusCode.UNATHOZIATION).json({
+        message: "User info missing",
+      });
+    }
+
+    if (!allowedRoles.includes(req.user.role)) {
+      return res.status(statusCode.UNATHOZIATION).json({
+        message: "Access denied: insufficient role",
+      });
+    }
+
+    next();
+  };
+};

@@ -9,6 +9,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import bookingRoutes from './modules/api/Booking/routes/bookingRoutes.js';
 
+
 dotenv.config();
 
 const app = express();

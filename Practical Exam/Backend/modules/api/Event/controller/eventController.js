@@ -1,18 +1,18 @@
 import statusCode from '../../../../config/statusCode.js';
 import eventModel from '../../../../models/eventModel.js';
 import dotenv from 'dotenv';
-import { EventValidation } from '../../validationRules.js';
+// import { EventValidation } from '../../validationRules.js';
 dotenv.config();
 
 export const addEvent = async (req, res) => {
   try {
-    const { error } = EventValidation.validate(req.body);
-    if (error) {
-      return res.status(statusCode.VALIDATION_ERROR).json({
-        message: 'Validation error',
-        error: error.message,
-      });
-    }
+    // const { error } = EventValidation.validate(req.body);
+    // if (error) {
+    //   return res.status(statusCode.VALIDATION_ERROR).json({
+    //     message: 'Validation error',
+    //     error: error.message,
+    //   });
+    // }
     const { ename, edate, evenues, eprice, elocation, category, capacity } =
       req.body;
 

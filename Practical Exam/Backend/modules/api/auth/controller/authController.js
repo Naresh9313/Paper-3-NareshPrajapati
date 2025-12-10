@@ -15,7 +15,7 @@ export const Register = async (req, res) => {
       });
     }
 
-    const { name, email, password } = req.body;
+    const { name, email, password,role } = req.body;
 
     const emailExists = await userModel.findOne({ email });
     if (emailExists) {
@@ -30,6 +30,7 @@ export const Register = async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      role
     });
 
     await newUser.save();
@@ -103,6 +104,7 @@ export const Login = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role,
       },
       process.env.JWT_SECRET,
       {
@@ -117,6 +119,7 @@ export const Login = async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role,
       },
     });
   } catch (error) {

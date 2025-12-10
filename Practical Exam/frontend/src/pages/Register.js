@@ -46,6 +46,7 @@ function Register() {
             name: "",
             email: "",
             password: "",
+            role: "User",
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
@@ -94,6 +95,13 @@ function Register() {
                 component="div"
                 className="text-danger mt-1"
               />
+            </div>
+            <div className="mb-3">
+              <label className="form-label fw-semibold">Select Role</label>
+              <Field as="select" name="role" className="form-control">
+                <option value="User">User</option>
+                <option value="Organization">Organization</option>
+              </Field>
             </div>
 
             <button type="submit" className="btn btn-primary w-100 mt-2">
