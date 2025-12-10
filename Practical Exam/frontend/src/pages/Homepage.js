@@ -51,13 +51,9 @@ function Homepage() {
     <>
       <Navbar />
 
-    
       <div className="container py-5">
-        <h1 className="text-center fw-bold mb-5">
-          Available Events
-        </h1>
+        <h1 className="text-center fw-bold mb-5">Available Events</h1>
 
-        
         <div
           className="p-3 mb-4 rounded shadow-sm"
           style={{ background: "#f8f9fa" }}
@@ -74,7 +70,6 @@ function Homepage() {
               />
             </div>
 
-           
             <div className="col-md-4">
               <select
                 className="form-select"
@@ -84,19 +79,17 @@ function Homepage() {
                   setCategory(e.target.value);
                 }}
               >
-          <option value="">All Categories</option>
-          <option value="Music">Music</option>
-          <option value="Garba">Garba</option>
-          <option value="Education">Education</option>
-          <option value="Party">Party</option>
-          <option value="BGMI(pubg)">BGMI(pubg)</option>
-          <option value="Game Event">Game Event</option>
-          <option value="Party">Party</option>
-
+                <option value="">All Categories</option>
+                <option value="Music">Music</option>
+                <option value="Garba">Garba</option>
+                <option value="Education">Education</option>
+                <option value="Party">Party</option>
+                <option value="BGMI(pubg)">BGMI(pubg)</option>
+                <option value="Game Event">Game Event</option>
+                <option value="Party">Party</option>
               </select>
             </div>
 
-           
             <div className="col-md-4">
               <select
                 className="form-select"
@@ -114,17 +107,26 @@ function Homepage() {
           </div>
         </div>
 
-      
-  <div className="row">
-         {events.map((item) => (
+        <div className="row">
+          {events.map((item) => (
             <div className="col-md-4 mb-3" key={item._id}>
               <div className="card p-2 shadow">
                 <h5>{item.ename}</h5>
-                <p><b>Date:</b> {item.edate}</p>
-                <p><b>Category:</b> {item.category}</p>
-                <p><b>Venue:</b> {item.evenues}</p>
-                <p><b>Location:</b> {item.elocation}</p>
-                <p><b>Price:</b> ₹{item.eprice}</p>
+                <p>
+                  <b>Date:</b> {item.edate}
+                </p>
+                <p>
+                  <b>Category:</b> {item.category}
+                </p>
+                <p>
+                  <b>Venue:</b> {item.evenues}
+                </p>
+                <p>
+                  <b>Location:</b> {item.elocation}
+                </p>
+                <p>
+                  <b>Price:</b> ₹{item.eprice}
+                </p>
 
                 <button
                   className="btn btn-success w-100"
