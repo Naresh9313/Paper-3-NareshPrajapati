@@ -15,17 +15,32 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
+// app.use(
+//   cors({
+//     origin: 'http://localhost:3000',
+//     https://paper-3-naresh-prajapati.vercel.app/'
+//     credentials: true,
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   }),
+// );
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: [
+      "http://localhost:3000",
+      "https://paper-3-naresh-prajapati.vercel.app"
+    ],
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  }),
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
 );
 
 app.use('/auth', userRoutes);
 app.use('/event', eventRoutes);
 app.use('/booking', bookingRoutes);
+
+app.get("/", (req, res) => {
+  res.send("Vercel Backend Working!");
+});
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
