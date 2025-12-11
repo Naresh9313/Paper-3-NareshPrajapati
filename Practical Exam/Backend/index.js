@@ -15,12 +15,22 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
+// app.use(
+//   cors({
+//     origin: 'http://localhost:3000',
+//     credentials: true,
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   }),
+// );
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: [
+      "http://localhost:3000",
+      "https://paper-3-naresh-prajapati.vercel.app"
+    ],
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  }),
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
 );
 
 app.use('/auth', userRoutes);
